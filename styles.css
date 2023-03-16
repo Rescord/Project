@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.all {
+    position: relative;
+    display: inline-block;
+}
+.smaller {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+}
+.smaller__player {
+    justify-content: flex-end;
+}
+.smaller__enemy, .smaller__player{
+    position: relative;
+    display: flex;
+    height: 30px;
+    width: 100%;
+}
+.smaller__timer {
+    border-radius: 20%;
+    background-color: black;
+    height: 50px;
+    width: 100px;
+    flex-shrink: 0;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    color: #0891B2;
+    border: 2px solid #0891B2;
+
+}
+.smaller__enemy__damage {
+    left: 0;
+}
+.smaller__player__damage{
+    width: 100%;
+}
+.smaller__enemy__heals, .smaller__player__heals {
+    background-color: #E11D48;
+    height: 30px;
+    border: 2px solid #0891B2;
+    width: 100%;
+    border-top: 2px solid #0891B2;
+    border-left: 2px solid #0891B2;
+    border-bottom: 2px solid #0891B2;
+}
+.smaller__enemy__damage, .smaller__player__damage {
+    position: absolute;
+    background: #A78BFA;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    border-top: 2px solid #0891B2;
+    border-left: 2px solid #0891B2;
+    border-bottom: 2px solid #0891B2;
+}
+.tie {
+    position: absolute;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+}

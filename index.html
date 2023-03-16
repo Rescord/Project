@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Red container div -->
+    <div class="all">
+        <!-- Smaller red container div-->
+        <div class="smaller">
+            <!-- Player health -->
+            <div class="smaller__player">
+                <div class="smaller__player__heals"></div>
+                <div class="smaller__player__damage"></div>
+            </div>
+            <!-- Timer -->
+            <div class="smaller__timer">10</div>
+            <!-- Enemy health -->
+            <div class="smaller__enemy">
+                <div class="smaller__enemy__heals"></div>
+                <div class="smaller__enemy__damage"></div>
+            </div>
+        </div>
+        <div class="tie">Tie</div>
+        <canvas></canvas>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" 
+    integrity="sha512-f8mwTB+Bs8a5c46DEm7HQLcJuHMBaH/UFlcgyetMqqkvTcYg4g5VXsYR71b3qC82lZytjNYvBj2pf0VekA9/FQ==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer"></script>
+    <script src="js/classes.js"></script>
+    <script src="script.js"></script>
+    <script src="js/utils.js"></script>
+</body>
+</html>
