@@ -12,7 +12,7 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  imageSrc: "./img/background.png",
+  imageSrc: "./Pictures/background.png",
 });
 
 const shop = new Sprite({
@@ -20,7 +20,7 @@ const shop = new Sprite({
     x: 670,
     y: 167,
   },
-  imageSrc: "./img/shop.png",
+  imageSrc: "./Pictures/shop.png",
   scale: 2.4,
   framesMax: 6,
 });
@@ -39,7 +39,7 @@ const player = new Fighters({
     x: 0,
     y: 0,
   },
-  imageSrc: "./img/samurai/Idle.png",
+  imageSrc: "./Pictures/samurai/Idle.png",
   framesMax: 8,
   scale: 2.5,
   offset: {
@@ -48,31 +48,31 @@ const player = new Fighters({
   },
   sprites: {
     idle: {
-      imageSrc: "./img/samurai/Idle.png",
+      imageSrc: "./Pictures/samurai/Idle.png",
       framesMax: 8,
     },
     run: {
-      imageSrc: "./img/samurai/Run.png",
+      imageSrc: "./Pictures/samurai/Run.png",
       framesMax: 8,
     },
     jump: {
-      imageSrc: "./img/samurai/Jump.png",
+      imageSrc: "./Pictures/samurai/Jump.png",
       framesMax: 2,
     },
     fall: {
-      imageSrc: "./img/samurai/Fall.png",
+      imageSrc: "./Pictures/samurai/Fall.png",
       framesMax: 2,
     },
     attack1: {
-      imageSrc: "./img/samurai/Attack1.png",
+      imageSrc: "./Pictures/samurai/Attack1.png",
       framesMax: 6,
     },
     takeHit: {
-      imageSrc: "./img/samurai/Take Hit - white silhouette.png",
+      imageSrc: "./Pictures/samurai/Take Hit - white silhouette.png",
       framesMax: 4,
     },
     death: {
-      imageSrc: "./img/samurai/Death.png",
+      imageSrc: "./Pictures/samurai/Death.png",
       framesMax: 6,
     },
   },
@@ -101,7 +101,7 @@ const enemy = new Fighters({
     x: -50,
     y: 0,
   },
-  imageSrc: "./img/enemy/Idle.png",
+  imageSrc: "./Pictures/enemy/Idle.png",
   framesMax: 4,
   scale: 2.5,
   offset: {
@@ -110,31 +110,31 @@ const enemy = new Fighters({
   },
   sprites: {
     idle: {
-      imageSrc: "./img/enemy/Idle.png",
+      imageSrc: "./Pictures/enemy/Idle.png",
       framesMax: 4,
     },
     run: {
-      imageSrc: "./img/enemy/Run.png",
+      imageSrc: "./Pictures/enemy/Run.png",
       framesMax: 8,
     },
     jump: {
-      imageSrc: "./img/enemy/Jump.png",
+      imageSrc: "./Pictures/enemy/Jump.png",
       framesMax: 2,
     },
     fall: {
-      imageSrc: "./img/enemy/Fall.png",
+      imageSrc: "./Pictures/enemy/Fall.png",
       framesMax: 2,
     },
     attack1: {
-      imageSrc: "./img/enemy/Attack1.png",
+      imageSrc: "./Pictures/enemy/Attack1.png",
       framesMax: 4,
     },
     takeHit: {
-      imageSrc: "./img/enemy/Take hit.png",
+      imageSrc: "./Pictures/enemy/Take hit.png",
       framesMax: 3,
     },
     death: {
-      imageSrc: "./img/enemy/Death.png",
+      imageSrc: "./Pictures/enemy/Death.png",
       framesMax: 7,
     },
   },
@@ -147,8 +147,6 @@ const enemy = new Fighters({
     height: 50,
   },
 });
-
-console.log(player);
 
 //Keys
 const keys = {
@@ -176,32 +174,6 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
   );
 }
-
-function determineWinner({ player, enemy, timerId }) {
-  clearTimeout(timerId);
-  document.querySelector(".tie").style.display = "flex";
-  if (player.health === enemy.health) {
-    document.querySelector(".tie").innerHTML = "Tie";
-  } else if (player.health > enemy.health) {
-    document.querySelector(".tie").innerHTML = "Player 1 wins";
-  } else if (enemy.health > player.health) {
-    document.querySelector(".tie").innerHTML = "Player 2 wins";
-  }
-}
-
-let timer = 60;
-let timerId;
-function decreaseTimer() {
-  if (timer > 0) {
-    timerId = setTimeout(decreaseTimer, 1000);
-    timer--;
-    document.querySelector(".smaller__timer").innerHTML = timer;
-  }
-  if (timer === 0) {
-    determineWinner({ player, enemy, timerId });
-  }
-}
-
 decreaseTimer();
 function animate() {
   window.requestAnimationFrame(animate);
@@ -250,40 +222,38 @@ function animate() {
   }
 
   //Detect of collision & enemy gets hit
-  if (
-    rectangularCollision({
-      rectangle1: player,
-      rectangle2: enemy,
-    }) &&
-    player.isAttacking &&
-    player.framesCurrent === 4
+  function collisionOnRect(
+    rectangle1,
+    rectangle2,
+    framesCurrent,
+    takeHitObject,
+    damager,
+    healsDamage
   ) {
-    enemy.takeHit();
-    player.isAttacking = false;
+    if (
+      rectangularCollision({
+        rectangle1: rectangle1,
+        rectangle2: rectangle2,
+      }) &&
+      damager.isAttacking &&
+      damager.framesCurrent === framesCurrent
+    ) {
+      takeHitObject.takeHit();
+      damager.isAttacking = false;
 
-    gsap.to(".smaller__enemy__damage", {
-      width: enemy.health + "%",
-    });
+      gsap.to(healsDamage, {
+        width: takeHitObject.health + "%",
+      });
+    }
   }
+  collisionOnRect(player, enemy, 4, enemy, player, ".smaller__enemy__damage");
 
   //If player misses
   if (player.isAttacking && player.framesCurrent === 4) {
     player.isAttacking = false;
   }
-  if (
-    rectangularCollision({
-      rectangle1: enemy,
-      rectangle2: player,
-    }) &&
-    enemy.isAttacking &&
-    enemy.framesCurrent === 2
-  ) {
-    player.takeHit();
-    enemy.isAttacking = false;
-    gsap.to(".smaller__player__damage", {
-      width: player.health + "%",
-    });
-  }
+
+  collisionOnRect(enemy, player, 2, player, enemy, ".smaller__player__damage");
   //If enemy misses
   if (enemy.isAttacking && enemy.framesCurrent === 2) {
     enemy.isAttacking = false;
